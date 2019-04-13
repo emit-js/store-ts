@@ -54,10 +54,12 @@ export class Store {
       e.id.slice(0, -1).reduce(
         (memo, id): object => {
           if (memo && typeof memo === "object") {
-            memo[id] = typeof memo[id] === "object" ?
+            const exists = memo[id] !== undefined
+            const obj = typeof memo[id] === "object"
+            memo[id] = obj ?
               {...memo[id]} :
-              memo[id] ? undefined : {}
-            return memo[id]
+              (memo[id] || {})
+            return !exists || obj ? memo[id] : undefined
           }
         },
         state
