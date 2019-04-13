@@ -53,3 +53,16 @@ test("delete", (): void => {
   emit.delete("hello")
   expect(emit.get()).toEqual({})
 })
+
+test("immutable", (): void => {
+  const s1a = emit.get()
+  emit.set("hello", { world: true })
+  const s1b = emit.get()
+  const s2a = emit.get("hello")
+  emit.set(["hello", "universe"], true)
+  const s1c = emit.get()
+  const s2b = emit.get("hello")
+  expect(s1a).not.toBe(s1b)
+  expect(s1b).not.toBe(s1c)
+  expect(s2a).not.toBe(s2b)
+})
