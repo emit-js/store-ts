@@ -18,7 +18,7 @@ export class Store {
 
   public delete(e: EventType): void {
     const [parent, state] = this.parentState(e)
-    if (parent && typeof parent === "object") {
+    if (parent) {
       delete parent[e.id[e.id.length - 1]]
       this.state = state
     }
@@ -32,7 +32,7 @@ export class Store {
 
   public merge(e: EventType, value: any): void {
     const [parent, state] = this.parentState(e)
-    if (parent && typeof parent === "object") {
+    if (parent) {
       Object.assign(parent[e.id[e.id.length - 1]], value)
       this.state = state
     }
@@ -40,21 +40,23 @@ export class Store {
 
   public set(e: EventType, value: any): void {
     const [parent, state] = this.parentState(e)
-    if (parent && typeof parent === "object") {
+    if (parent) {
       parent[e.id[e.id.length - 1]] = value
       this.state = state
     }
   }
 
-  private parentState(e: EventType, ): [any, object] {
-    const state = { ...this.state }
+  private parentState(
+    e: EventType
+  ): [object | undefined, object] {
+    const state = {...this.state}
     return [
       e.id.slice(0, -1).reduce(
-        (memo, id): any => {
+        (memo, id): object => {
           if (memo && typeof memo === "object") {
             memo[id] = typeof memo[id] === "object" ?
               {...memo[id]} :
-              memo[id] ? memo[id] : {}
+              memo[id] ? undefined : {}
             return memo[id]
           }
         },
