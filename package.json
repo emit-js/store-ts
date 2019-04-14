@@ -1,6 +1,6 @@
 {
   "name": "@emit-js/store",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "emit store",
   "keywords": [
     "immutable",
