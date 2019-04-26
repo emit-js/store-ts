@@ -1,7 +1,7 @@
 import { Emit } from "@emit-js/emit"
 import { store } from "../"
 
-var emit: Emit
+let emit: Emit
 
 beforeEach((): void => {
   emit = new Emit()
