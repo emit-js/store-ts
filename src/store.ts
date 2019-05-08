@@ -76,3 +76,5 @@ export function store(emit: Emit): void {
   emit.any("merge", store.merge.bind(store))
   emit.any("set", store.set.bind(store))
 }
+
+export const listen = store
