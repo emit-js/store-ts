@@ -19,13 +19,13 @@ export class Store {
   public delete(e: EventType): void {
     const [parent, state] = this.parentState(e)
     if (parent) {
-      delete parent[e.id[e.id.length - 1]]
+      delete parent[e.id[e.id.length - 2]]
       this.state = state
     }
   }
 
   public get(e: EventType): any {
-    return e.id.reduce((memo, id): any => {
+    return e.id.slice(0, -1).reduce((memo, id): any => {
       return memo && memo[id]
     }, this.state)
   }
@@ -33,7 +33,7 @@ export class Store {
   public merge(e: EventType, value: any): void {
     const [parent, state] = this.parentState(e)
     if (parent) {
-      Object.assign(parent[e.id[e.id.length - 1]], value)
+      Object.assign(parent[e.id[e.id.length - 2]], value)
       this.state = state
     }
   }
@@ -41,7 +41,7 @@ export class Store {
   public set(e: EventType, value: any): void {
     const [parent, state] = this.parentState(e)
     if (parent) {
-      parent[e.id[e.id.length - 1]] = value
+      parent[e.id[e.id.length - 2]] = value
       this.state = state
     }
   }
@@ -51,7 +51,7 @@ export class Store {
   ): [object | undefined, object] {
     const state = {...this.state}
     return [
-      e.id.slice(0, -1).reduce(
+      e.id.slice(0, -2).reduce(
         (memo, id): object => {
           if (memo && typeof memo === "object") {
             const exists = memo[id] !== undefined
